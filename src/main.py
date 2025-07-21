@@ -8,5 +8,5 @@ if __name__ == "__main__":
 
     server.register_user(
         username=alice.username,
-        user_publik_keys=alice.keys.public_part(),
+        user_public_keys=alice.keys.public_part(),
     )

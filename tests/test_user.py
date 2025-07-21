@@ -23,9 +23,9 @@ class TestUserKeys:
                 public_key=user.keys.signed_pre_key.public_key,
                 signature=aliases.Signature(user.keys.signed_pre_key.signature),
             ),
-            public_one_time_pre_keys=[
+            public_one_time_pre_keys=tuple(
                 one_time_key.public_key for one_time_key in user.keys.one_time_pre_keys
-            ],
+            ),
         )
 
     def test_if_public_part_doesnt_contain_any_private_keys(self) -> None:
