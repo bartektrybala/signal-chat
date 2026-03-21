@@ -1,6 +1,6 @@
 import dataclasses
 
-from src.inteface import ChatParticipant
+from src.keys import ChatParticipant
 
 
 @dataclasses.dataclass(frozen=True)
