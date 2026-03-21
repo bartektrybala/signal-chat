@@ -1,19 +1,7 @@
 import dataclasses
 
-from cryptography.hazmat.primitives.asymmetric.x25519 import (
-    X25519PublicKey,
-)
-
 from src import aliases
-from src.user import UserPublicKeys
-
-
-@dataclasses.dataclass
-class FetchedUserKeys:
-    username: aliases.Username
-    public_identity_key: X25519PublicKey
-    public_signed_pre_key: X25519PublicKey
-    public_one_time_pre_key: X25519PublicKey
+from src.inteface import UserPublicKeys
 
 
 @dataclasses.dataclass
@@ -31,13 +19,12 @@ class Server:
         )
         self.users[username] = user_public_keys
 
-    def fetch_user_keys(self, username: aliases.Username) -> FetchedUserKeys:
-        user_keys = self.users[username]
-        fetched_user_keys = FetchedUserKeys(
-            username=username,
-            public_identity_key=user_keys.public_identity_key,
-            public_signed_pre_key=user_keys.public_signed_pre_key.public_key,
-            public_one_time_pre_key=user_keys.public_one_time_pre_keys[0],
+    def fetch_user_public_keys(self, username: aliases.Username) -> UserPublicKeys:
+        user_pks = self.users[username]
+        to_return = UserPublicKeys(
+            public_identity_key=user_pks.public_identity_key,
+            public_signed_pre_key=user_pks.public_signed_pre_key,
+            public_one_time_pre_keys=(user_pks.public_one_time_pre_keys[0],),
         )
-        user_keys.public_one_time_pre_keys = user_keys.public_one_time_pre_keys[1:]
-        return fetched_user_keys
+        user_pks.public_one_time_pre_keys = user_pks.public_one_time_pre_keys[1:]
+        return to_return

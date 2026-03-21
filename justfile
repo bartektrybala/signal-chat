@@ -1,8 +1,11 @@
 pre-commit hook="":
     pre-commit run {{hook}} --all-files --show-diff-on-failure
 
-mypy:
-	uv run mypy .
+ty:
+	uv run ty check
 
 test:
     uv run pytest -v --tb=short
+
+check: pre-commit ty test
+	echo "Check finished successfully!"
