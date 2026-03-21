@@ -1,7 +1,7 @@
 import dataclasses
 
 from src import aliases
-from src.user import UserPublicKeys
+from src.inteface import UserPublicKeys
 
 
 @dataclasses.dataclass
@@ -11,10 +11,20 @@ class Server:
     )
 
     def register_user(
-        self, username: aliases.Username, user_publik_keys: UserPublicKeys
+        self, username: aliases.Username, user_public_keys: UserPublicKeys
     ) -> None:
-        user_publik_keys.public_identity_key.verify(
-            user_publik_keys.public_signed_pre_key.signature,
-            user_publik_keys.public_signed_pre_key.public_key.public_bytes_raw(),
+        user_public_keys.public_identity_key.verify(
+            user_public_keys.public_signed_pre_key.signature,
+            user_public_keys.public_signed_pre_key.public_key.public_bytes_raw(),
         )
-        self.users[username] = user_publik_keys
+        self.users[username] = user_public_keys
+
+    def fetch_user_public_keys(self, username: aliases.Username) -> UserPublicKeys:
+        user_pks = self.users[username]
+        to_return = UserPublicKeys(
+            public_identity_key=user_pks.public_identity_key,
+            public_signed_pre_key=user_pks.public_signed_pre_key,
+            public_one_time_pre_keys=(user_pks.public_one_time_pre_keys[0],),
+        )
+        user_pks.public_one_time_pre_keys = user_pks.public_one_time_pre_keys[1:]
+        return to_return
