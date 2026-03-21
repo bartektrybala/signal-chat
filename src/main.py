@@ -1,6 +1,6 @@
 from src import aliases
 from src.chat import ChatRoom
-from src.inteface import ChatParticipant
+from src.keys import ChatParticipant
 from src.server import Server
 from src.user import create_user
 

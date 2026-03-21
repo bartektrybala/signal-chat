@@ -3,7 +3,7 @@ import cryptography.exceptions
 import pytest
 
 from src import aliases
-from src.inteface import UserPublicKeys
+from src.keys import UserPublicKeys
 from src.server import Server
 from src.user import create_user
 
@@ -56,7 +56,7 @@ class TestServer:
         # then
         assert isinstance(user_public_keys, UserPublicKeys)
         assert user_public_keys.public_identity_key == user.keys.identity_key.public_key
-        user_public_keys.public_identity_key.verify(
-            user_public_keys.public_signed_pre_key.signature,
-            user_public_keys.public_signed_pre_key.public_key.public_bytes_raw(),
-        )
+
+        signature = user_public_keys.public_signed_pre_key.signature
+        public_key = user_public_keys.public_signed_pre_key.public_key
+        user_public_keys.verify(signature=signature, public_key=public_key)

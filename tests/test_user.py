@@ -1,5 +1,5 @@
 from src import aliases
-from src.inteface import PublicSignedPreKey, UserPublicKeys
+from src.keys import PublicSignedPreKey, UserPublicKeys
 from src.user import create_user
 
 
