@@ -24,7 +24,5 @@ class Server:
         to_return = UserPublicKeys(
             public_identity_key=user_pks.public_identity_key,
             public_signed_pre_key=user_pks.public_signed_pre_key,
-            public_one_time_pre_keys=(user_pks.public_one_time_pre_keys[0],),
         )
-        user_pks.public_one_time_pre_keys = user_pks.public_one_time_pre_keys[1:]
         return to_return

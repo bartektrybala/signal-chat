@@ -19,13 +19,9 @@ class IdentityKey:
 
 
 @dataclasses.dataclass
-class PreKey:
+class SignedPreKey:
     private_key: X25519PrivateKey
     public_key: X25519PublicKey
-
-
-@dataclasses.dataclass
-class SignedPreKey(PreKey):
     signature: bytes
 
 
@@ -39,7 +35,6 @@ class PublicSignedPreKey:
 class UserPublicKeys:
     public_identity_key: Ed25519PublicKey
     public_signed_pre_key: PublicSignedPreKey
-    public_one_time_pre_keys: tuple[X25519PublicKey, ...]
 
 
 @dataclasses.dataclass(frozen=True)

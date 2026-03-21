@@ -8,7 +8,6 @@ from cryptography.hazmat.primitives.asymmetric.x25519 import (
 from src import aliases
 from src.inteface import (
     IdentityKey,
-    PreKey,
     PublicSignedPreKey,
     SignedPreKey,
     UserPublicKeys,
@@ -19,7 +18,6 @@ from src.inteface import (
 class UserKeys:
     identity_key: IdentityKey
     signed_pre_key: SignedPreKey
-    one_time_pre_keys: tuple[PreKey, PreKey, PreKey]
 
     def public_keys(self) -> UserPublicKeys:
         return UserPublicKeys(
@@ -27,9 +25,6 @@ class UserKeys:
             public_signed_pre_key=PublicSignedPreKey(
                 public_key=self.signed_pre_key.public_key,
                 signature=aliases.Signature(self.signed_pre_key.signature),
-            ),
-            public_one_time_pre_keys=tuple(
-                one_time_key.public_key for one_time_key in self.one_time_pre_keys
             ),
         )
 
@@ -58,26 +53,10 @@ def create_user(username: aliases.Username) -> User:
         ),
     )
 
-    one_time_pre_key_1 = X25519PrivateKey.generate()
-    one_time_pre_key_2 = X25519PrivateKey.generate()
-    one_time_pre_key_3 = X25519PrivateKey.generate()
-    one_time_pre_keys = (
-        PreKey(
-            private_key=one_time_pre_key_1, public_key=one_time_pre_key_1.public_key()
-        ),
-        PreKey(
-            private_key=one_time_pre_key_2, public_key=one_time_pre_key_2.public_key()
-        ),
-        PreKey(
-            private_key=one_time_pre_key_3, public_key=one_time_pre_key_3.public_key()
-        ),
-    )
-
     return User(
         username=username,
         keys=UserKeys(
             identity_key=identity_key,
             signed_pre_key=signed_pre_key,
-            one_time_pre_keys=one_time_pre_keys,
         ),
     )

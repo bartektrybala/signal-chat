@@ -47,7 +47,6 @@ class TestServer:
             username=user.username,
             user_public_keys=user.keys.public_keys(),
         )
-        assert len(server.users[user.username].public_one_time_pre_keys) == 3
 
         # when
         user_public_keys = server.fetch_user_public_keys(
@@ -61,4 +60,3 @@ class TestServer:
             user_public_keys.public_signed_pre_key.signature,
             user_public_keys.public_signed_pre_key.public_key.public_bytes_raw(),
         )
-        assert len(server.users[user.username].public_one_time_pre_keys) == 2
