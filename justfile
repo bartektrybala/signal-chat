@@ -1,5 +1,5 @@
 pre-commit hook="":
-    pre-commit run {{hook}} --all-files --show-diff-on-failure
+    uv run pre-commit run {{hook}} --all-files --show-diff-on-failure
 
 ty:
 	uv run ty check
